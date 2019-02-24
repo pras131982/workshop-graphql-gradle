@@ -1,0 +1,25 @@
+plugins {
+	id 'org.springframework.boot' version '2.1.3.RELEASE'
+	id 'java'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.wesovilabs'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	compile group: 'com.graphql-java', name: 'graphql-java-tools', version: '5.2.4'
+	compile group: 'com.graphql-java', name: 'graphiql-spring-boot-starter', version: '5.0.2'
+	implementation 'com.graphql-java:graphql-java:11.0' // NEW
+	implementation 'com.graphql-java:graphql-java-spring-boot-starter-webmvc:1.0' // NEW
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-devtool'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	runtimeOnly 'org.postgresql:postgresql'
+}
