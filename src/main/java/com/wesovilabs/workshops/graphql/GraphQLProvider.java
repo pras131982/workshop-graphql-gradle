@@ -69,6 +69,7 @@ public class GraphQLProvider {
                 )
                 .type(newTypeWiring("Movie")
                         .dataFetcher("director",query.movieDirector())
+                        .dataFetcher("actors",query.movieActors())
 
                 )
                 .build();

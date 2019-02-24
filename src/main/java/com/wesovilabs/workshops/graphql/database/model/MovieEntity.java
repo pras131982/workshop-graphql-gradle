@@ -1,6 +1,8 @@
 package com.wesovilabs.workshops.graphql.database.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "movies")
@@ -21,10 +23,21 @@ public class MovieEntity {
 
     private String thriller;
 
-    @Column(name = "director_id")
-    private Long directorId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "director_id")
+    private DirectorEntity director;
 
-    public MovieEntity(){
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(name = "movies_actors",
+            joinColumns = {@JoinColumn(name = "movie_id")},
+            inverseJoinColumns = {@JoinColumn(name = "actor_id")})
+    private List<ActorEntity> actors = new ArrayList<>();
+
+    public MovieEntity() {
 
     }
 
@@ -34,7 +47,8 @@ public class MovieEntity {
         this.genre = genre;
         this.budget = budget;
         this.thriller = thriller;
-        this.directorId = directorId;
+        this.director = new DirectorEntity();
+        this.director.setId(directorId);
     }
 
     public Long getId() {
@@ -85,11 +99,19 @@ public class MovieEntity {
         this.thriller = thriller;
     }
 
-    public Long getDirectorId() {
-        return directorId;
+    public DirectorEntity getDirector() {
+        return director;
     }
 
-    public void setDirectorId(Long directorId) {
-        this.directorId = directorId;
+    public void setDirector(DirectorEntity director) {
+        this.director = director;
+    }
+
+    public List<ActorEntity> getActors() {
+        return actors;
+    }
+
+    public void setActors(List<ActorEntity> actors) {
+        this.actors = actors;
     }
 }

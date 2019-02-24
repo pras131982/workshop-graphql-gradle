@@ -20,14 +20,13 @@ public class Movie {
 
     private List<Actor> actors;
 
-    public Movie(Long id, String title, int year, String genre, Float budget, String thriller, Long directorId) {
+    public Movie(Long id, String title, int year, String genre, Float budget, String thriller) {
         this.id = id;
         this.title = title;
         this.year = year;
         this.genre = genre;
         this.budget = budget;
         this.thriller = thriller;
-        this.director = new Director(directorId);
     }
 
     public Long getId() {

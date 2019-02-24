@@ -18,8 +18,7 @@ public class MovieEntityToMovieConverter implements Converter<MovieEntity, Movie
                 source.getReleaseYear(),
                 source.getGenre(),
                 source.getBudget(),
-                source.getThriller(),
-                source.getDirectorId()
+                source.getThriller()
         );
     }
 }
