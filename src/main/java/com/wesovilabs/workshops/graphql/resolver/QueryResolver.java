@@ -11,8 +11,10 @@ import com.wesovilabs.workshops.graphql.database.repository.MovieRepository;
 import com.wesovilabs.workshops.graphql.domain.Actor;
 import com.wesovilabs.workshops.graphql.domain.Director;
 import com.wesovilabs.workshops.graphql.domain.Movie;
+import com.wesovilabs.workshops.graphql.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,7 +29,7 @@ public class QueryResolver implements GraphQLQueryResolver {
     private DirectorRepository directorRepository;
 
     @Autowired
-    private MovieRepository movieRepository;
+    private MovieService movieService;
 
     @Autowired
     private ActorEntityToActorConverter actorEntityToActorConverter;
@@ -55,15 +57,15 @@ public class QueryResolver implements GraphQLQueryResolver {
     }
 
     public List<Movie> listMovies() {
-        return movieRepository
-                .findAll()
+        return movieService
+                .listMovies()
                 .stream()
                 .map(movieEntityToMovieConverter::convert)
                 .collect(Collectors.toList());
     }
 
     public Movie getMovie(Integer movieId) {
-        MovieEntity entity = movieRepository.getOne(movieId);
+        MovieEntity entity = movieService.findMovieById(movieId);
         return movieEntityToMovieConverter.convert(entity);
     }
 }

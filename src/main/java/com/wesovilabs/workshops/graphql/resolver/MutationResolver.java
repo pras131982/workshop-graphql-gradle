@@ -4,16 +4,17 @@ import com.coxautodev.graphql.tools.GraphQLMutationResolver;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wesovilabs.workshops.graphql.converter.*;
 import com.wesovilabs.workshops.graphql.database.model.ActorEntity;
+import com.wesovilabs.workshops.graphql.database.model.DirectorEntity;
 import com.wesovilabs.workshops.graphql.database.model.MovieEntity;
 import com.wesovilabs.workshops.graphql.database.repository.ActorRepository;
 import com.wesovilabs.workshops.graphql.database.repository.MovieRepository;
-import com.wesovilabs.workshops.graphql.domain.Actor;
-import com.wesovilabs.workshops.graphql.domain.ActorRequest;
-import com.wesovilabs.workshops.graphql.domain.MovieRequest;
-import com.wesovilabs.workshops.graphql.domain.Movie;
+import com.wesovilabs.workshops.graphql.domain.*;
 import com.wesovilabs.workshops.graphql.publisher.MovieDirectorPublisher;
+import com.wesovilabs.workshops.graphql.service.MovieService;
+import graphql.schema.DataFetchingEnvironment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class MutationResolver implements GraphQLMutationResolver {
     private ActorRepository actorRepository;
 
     @Autowired
-    private MovieRepository movieRepository;
+    private MovieService movieService;
 
     @Autowired
     private ActorEntityToActorConverter actorEntityToActorConverter;
@@ -64,18 +65,22 @@ public class MutationResolver implements GraphQLMutationResolver {
         return queryResolver.listActors();
     }
 
-    public Movie addMovie(MovieRequest request) {
-        ObjectMapper mapper = new ObjectMapper();
+    @Transactional
+    public Movie addMovie(MovieRequest request, DataFetchingEnvironment env) {
+        Movie movie = null;
         try {
+            ObjectMapper mapper = new ObjectMapper();
             MovieRequest movieRequest = mapper.convertValue(request, MovieRequest.class);
             MovieEntity movieEntity = movieRequestToMovieEntityConverter.convert(movieRequest);
-            movieRepository.save(movieEntity);
-            Movie movie = movieEntityToMovieConverter.convert(movieEntity);
-            movie.setDirector(directorEntityToDirectorConverter.convert(movieEntity.getDirector()));
-            movieDirectorPublisher.publish(movie);
+            movieEntity = movieService.addMovie(movieEntity);
+            movie = movieEntityToMovieConverter.convert(movieEntity);
+            Director director = new Director(movieEntity.getDirector().getId());
+            movie.setDirector(director);
             return movie;
         } catch (Exception ex) {
             throw ex;
+        } finally {
+            movieDirectorPublisher.publish(movie);
         }
     }
 }
