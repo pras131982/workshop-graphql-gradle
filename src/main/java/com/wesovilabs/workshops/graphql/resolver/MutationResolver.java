@@ -10,13 +10,23 @@ import com.wesovilabs.workshops.graphql.database.repository.ActorRepository;
 import com.wesovilabs.workshops.graphql.database.repository.MovieRepository;
 import com.wesovilabs.workshops.graphql.domain.*;
 import com.wesovilabs.workshops.graphql.publisher.MovieDirectorPublisher;
+import com.wesovilabs.workshops.graphql.service.ActorService;
 import com.wesovilabs.workshops.graphql.service.MovieService;
+import graphql.ErrorType;
+import graphql.ExceptionWhileDataFetching;
+import graphql.GraphQLError;
+import graphql.language.SourceLocation;
 import graphql.schema.DataFetchingEnvironment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static graphql.ErrorType.DataFetchingException;
 
 @Component
 public class MutationResolver implements GraphQLMutationResolver {
@@ -31,7 +41,7 @@ public class MutationResolver implements GraphQLMutationResolver {
     private MovieRequestToMovieEntityConverter movieRequestToMovieEntityConverter;
 
     @Autowired
-    private ActorRepository actorRepository;
+    private ActorService actorService;
 
     @Autowired
     private MovieService movieService;
@@ -48,12 +58,13 @@ public class MutationResolver implements GraphQLMutationResolver {
     @Autowired
     private MovieDirectorPublisher movieDirectorPublisher;
 
+
     public Actor addActor(ActorRequest request) {
         ObjectMapper mapper = new ObjectMapper();
         try {
             ActorRequest actorRequest = mapper.convertValue(request, ActorRequest.class);
             ActorEntity actorEntity = actorRequestToActorEntityConverter.convert(actorRequest);
-            actorRepository.save(actorEntity);
+            actorEntity = actorService.addActor(actorEntity);
             return actorEntityToActorConverter.convert(actorEntity);
         } catch (Exception ex) {
             throw ex;
@@ -61,26 +72,49 @@ public class MutationResolver implements GraphQLMutationResolver {
     }
 
     public List<Actor> deleteActor(Integer actorId) {
-        actorRepository.deleteById(Integer.valueOf(actorId));
-        return queryResolver.listActors();
+        actorService.deleteActorWithId(Integer.valueOf(actorId));
+        return actorService
+                .listActors()
+                .stream()
+                .map(actorEntityToActorConverter::convert)
+                .collect(Collectors.toList());
     }
 
     @Transactional
     public Movie addMovie(MovieRequest request, DataFetchingEnvironment env) {
-        Movie movie = null;
+
         try {
             ObjectMapper mapper = new ObjectMapper();
             MovieRequest movieRequest = mapper.convertValue(request, MovieRequest.class);
             MovieEntity movieEntity = movieRequestToMovieEntityConverter.convert(movieRequest);
             movieEntity = movieService.addMovie(movieEntity);
-            movie = movieEntityToMovieConverter.convert(movieEntity);
-            Director director = new Director(movieEntity.getDirector().getId());
-            movie.setDirector(director);
-            return movie;
+            movieEntity.getDirector();
+            movieDirectorPublisher.publish(movieEntity);
+            return movieEntityToMovieConverter.convert(movieEntity);
         } catch (Exception ex) {
+            ex.printStackTrace();
+            // The purpose of this block is just showing how we could customize the errors
+            env.getExecutionContext().addError(customError(ex));
             throw ex;
-        } finally {
-            movieDirectorPublisher.publish(movie);
         }
+    }
+
+    private GraphQLError customError(Exception ex) {
+        return new GraphQLError() {
+            @Override
+            public String getMessage() {
+                return ex.getMessage();
+            }
+
+            @Override
+            public List<SourceLocation> getLocations() {
+                return null;
+            }
+
+            @Override
+            public ErrorType getErrorType() {
+                return DataFetchingException;
+            }
+        };
     }
 }

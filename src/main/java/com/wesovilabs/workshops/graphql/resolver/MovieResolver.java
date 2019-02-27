@@ -10,25 +10,18 @@ import com.wesovilabs.workshops.graphql.database.repository.MovieRepository;
 import com.wesovilabs.workshops.graphql.domain.Actor;
 import com.wesovilabs.workshops.graphql.domain.Director;
 import com.wesovilabs.workshops.graphql.domain.Movie;
-import com.wesovilabs.workshops.graphql.service.MovieService;
-import graphql.schema.DataFetchingEnvironment;
-import org.dataloader.DataLoaderRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Component
 public class MovieResolver implements GraphQLResolver<Movie> {
 
-    @Autowired
-    private MovieRepository movieRepository;
 
     @Autowired
-    private MovieService movieService;
+    private MovieRepository movieRepository;
 
     @Autowired
     private DirectorEntityToDirectorConverter directorEntityToDirectorConverter;

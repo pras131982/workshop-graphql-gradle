@@ -22,29 +22,30 @@ public class MovieDirectorPublisher {
     @Autowired
     private MovieEntityToMovieConverter converter;
 
-    private final Flowable<Movie> publisher;
+    private final Flowable<MovieEntity> publisher;
 
-    private ObservableEmitter<Movie> emitter;
+    private ObservableEmitter<MovieEntity> emitter;
 
     public MovieDirectorPublisher() {
-        Observable<Movie> movieUpdateObservable = Observable.create(emitter -> {
+        Observable<MovieEntity> movieUpdateObservable = Observable.create(emitter -> {
             this.emitter = emitter;
         });
-        ConnectableObservable<Movie> connectableObservable = movieUpdateObservable.share().publish();
+        ConnectableObservable<MovieEntity> connectableObservable = movieUpdateObservable.share().publish();
         connectableObservable.connect();
         publisher = connectableObservable.toFlowable(BackpressureStrategy.BUFFER);
     }
 
 
-    public void publish(final Movie movie) {
+    public void publish(final MovieEntity movie) {
         emitter.onNext(movie);
     }
 
     public Flowable<Movie> getPublisher(Integer directorId) {
-        return publisher.filter(movie -> check(movie, directorId));
+        return publisher.filter(movie -> check(movie, directorId))
+                .map(converter::convert);
     }
 
-    private boolean check(Movie movie, Integer directorId) {
+    private boolean check(MovieEntity movie, Integer directorId) {
         if (movie != null) {
             return movie.getDirector().getId() == directorId;
         }

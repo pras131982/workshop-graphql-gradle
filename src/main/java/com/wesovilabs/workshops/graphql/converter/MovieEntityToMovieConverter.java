@@ -15,7 +15,7 @@ public class MovieEntityToMovieConverter implements Converter<MovieEntity, Movie
         if (source == null) {
             return null;
         }
-        return new Movie(
+        Movie movie = new Movie(
                 source.getId(),
                 source.getTitle(),
                 source.getReleaseYear(),
@@ -23,5 +23,10 @@ public class MovieEntityToMovieConverter implements Converter<MovieEntity, Movie
                 source.getBudget(),
                 source.getThriller()
         );
+        if (source.getDirector() != null) {
+            movie.setDirector(new Director(source.getDirector().getId()));
+        }
+
+        return movie;
     }
 }

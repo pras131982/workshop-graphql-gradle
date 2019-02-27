@@ -14,7 +14,7 @@ spring:
       ddl-auto: validate
 logging:
   level:
-    org.springframework: DEBUG
+    org.springframework: WARN
     com.wesovilabs.workshops.graphql: DEBUG
 graphql:
   tools:
