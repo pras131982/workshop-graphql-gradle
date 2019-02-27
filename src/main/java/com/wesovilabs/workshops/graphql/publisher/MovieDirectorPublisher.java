@@ -27,7 +27,6 @@ public class MovieDirectorPublisher {
     private ObservableEmitter<Movie> emitter;
 
     public MovieDirectorPublisher() {
-
         Observable<Movie> movieUpdateObservable = Observable.create(emitter -> {
             this.emitter = emitter;
         });
@@ -40,8 +39,18 @@ public class MovieDirectorPublisher {
         emitter.onNext(movie);
     }
 
-    public Flowable<Movie> getPublisher() {
-        return this.publisher;
+    public Flowable<Movie> getPublisher(Integer directorId) {
+
+        return publisher.filter(movie -> check(movie, directorId));
     }
 
+    private boolean check(Movie movie, Integer directorId) {
+        if (movie != null) {
+
+            System.out.println(movie);
+            return movie.getDirector().getId() == directorId;
+        }
+        System.out.println("There is not movie");
+        return false;
+    }
 }

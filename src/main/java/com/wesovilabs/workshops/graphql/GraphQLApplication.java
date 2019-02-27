@@ -1,10 +1,11 @@
 package com.wesovilabs.workshops.graphql;
 
-import com.wesovilabs.workshops.graphql.resolver.Mutation;
-import com.wesovilabs.workshops.graphql.resolver.Query;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
+import javax.servlet.Filter;
+import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 
 @SpringBootApplication
 public class GraphQLApplication {
@@ -13,5 +14,9 @@ public class GraphQLApplication {
         SpringApplication.run(GraphQLApplication.class, args);
     }
 
+    @Bean
+    public Filter OpenFilter() {
+        return new OpenEntityManagerInViewFilter();
+    }
 
 }
