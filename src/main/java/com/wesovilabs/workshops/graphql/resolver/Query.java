@@ -1,30 +1,17 @@
 package com.wesovilabs.workshops.graphql.resolver;
 
-import com.wesovilabs.workshops.graphql.converter.ActorEntityToActorConverter;
-import com.wesovilabs.workshops.graphql.converter.DirectorEntityToDirectorConverter;
-import com.wesovilabs.workshops.graphql.converter.MovieEntityToMovieConverter;
-import com.wesovilabs.workshops.graphql.database.model.ActorEntity;
-import com.wesovilabs.workshops.graphql.database.model.DirectorEntity;
-import com.wesovilabs.workshops.graphql.database.repository.ActorRepository;
-import com.wesovilabs.workshops.graphql.database.repository.DirectorRepository;
-import com.wesovilabs.workshops.graphql.database.repository.MovieRepository;
-import com.wesovilabs.workshops.graphql.domain.Actor;
-import com.wesovilabs.workshops.graphql.domain.Director;
-import com.wesovilabs.workshops.graphql.domain.Movie;
+import com.wesovilabs.workshops.graphql.database.model.MovieEntity;
 import graphql.schema.DataFetcher;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Component
-public class Query extends ResolverBase {
+public class Query extends BaseResolver {
 
 
     public DataFetcher listActors() {
-        return dataFetchingEnvironment -> actorRepository
+        return environment -> actorRepository
                 .findAll()
                 .stream()
                 .map(actorEntityToActorConverter::convert)
@@ -32,7 +19,7 @@ public class Query extends ResolverBase {
     }
 
     public DataFetcher listDirectors() {
-        return dataFetchingEnvironment -> directorRepository
+        return environment -> directorRepository
                 .findAll()
                 .stream()
                 .map(directorEntityToDirectorConverter::convert)
@@ -40,7 +27,7 @@ public class Query extends ResolverBase {
     }
 
     public DataFetcher listMovies() {
-        return dataFetchingEnvironment -> movieRepository
+        return environment -> movieRepository
                 .findAll()
                 .stream()
                 .map(movieEntityToMovieConverter::convert)
@@ -48,31 +35,12 @@ public class Query extends ResolverBase {
     }
 
     public DataFetcher getMovie() {
-        return dataFetchingEnvironment -> {
-            return null;
+        return environment -> {
+            Integer movieId = Integer.valueOf(environment.getArgument("movieId"));
+            MovieEntity entity = movieRepository.getOne(movieId);
+            return movieEntityToMovieConverter.convert(entity);
         };
     }
 
-    public DataFetcher movieDirector() {
-        return environment -> {
-            DirectorEntity entity = movieRepository.getOne(((Movie) environment.getSource()).getId()).getDirector();
-            return directorEntityToDirectorConverter.convert(entity);
-        };
-    }
 
-    public DataFetcher movieActors() {
-        return environment -> {
-            Integer total = environment.getArgument("total");
-            List<ActorEntity> actorEntities = movieRepository.getOne(((Movie) environment.getSource()).getId()).getActors();
-            if (actorEntities.size() == 0) {
-                return null;
-            }
-            total = Math.min(total,actorEntities.size());
-            return actorEntities
-                    .subList(0, total)
-                    .stream()
-                    .map(actorEntityToActorConverter::convert)
-                    .collect(Collectors.toList());
-        };
-    }
 }

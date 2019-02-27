@@ -10,7 +10,7 @@ public class MovieEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     private String title;
 
@@ -19,7 +19,7 @@ public class MovieEntity {
 
     private String genre;
 
-    private Float budget;
+    private Double budget;
 
     private String thriller;
 
@@ -41,7 +41,7 @@ public class MovieEntity {
 
     }
 
-    public MovieEntity(String title, int releaseYear, String genre, Float budget, String thriller, Long directorId) {
+    public MovieEntity(String title, int releaseYear, String genre, Double budget, String thriller, Integer directorId) {
         this.title = title;
         this.releaseYear = releaseYear;
         this.genre = genre;
@@ -51,11 +51,11 @@ public class MovieEntity {
         this.director.setId(directorId);
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -83,11 +83,11 @@ public class MovieEntity {
         this.genre = genre;
     }
 
-    public Float getBudget() {
+    public Double getBudget() {
         return budget;
     }
 
-    public void setBudget(Float budget) {
+    public void setBudget(Double budget) {
         this.budget = budget;
     }
 

@@ -2,8 +2,10 @@ package com.wesovilabs.workshops.graphql;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
+import com.wesovilabs.workshops.graphql.resolver.Movie;
 import com.wesovilabs.workshops.graphql.resolver.Mutation;
 import com.wesovilabs.workshops.graphql.resolver.Query;
+import com.wesovilabs.workshops.graphql.resolver.Subscription;
 import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
 import graphql.schema.idl.RuntimeWiring;
@@ -32,6 +34,12 @@ public class GraphQLProvider {
 
     @Autowired
     private Query query;
+
+    @Autowired
+    private Subscription subscription;
+
+    @Autowired
+    private Movie movie;
 
     @Bean
     public GraphQL graphQL() {
@@ -67,9 +75,12 @@ public class GraphQLProvider {
                         .dataFetcher("deleteActor", mutation.deleteActor())
                         .dataFetcher("addMovie", mutation.addMovie())
                 )
+                .type(newTypeWiring("Subscription")
+                        .dataFetcher("listenDirectorMovies", subscription.listenDirectorMovies())
+                )
                 .type(newTypeWiring("Movie")
-                        .dataFetcher("director",query.movieDirector())
-                        .dataFetcher("actors",query.movieActors())
+                        .dataFetcher("director", movie.movieDirector())
+                        .dataFetcher("actors", movie.movieActors())
 
                 )
                 .build();

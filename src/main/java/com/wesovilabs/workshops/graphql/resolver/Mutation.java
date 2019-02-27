@@ -5,14 +5,13 @@ import com.wesovilabs.workshops.graphql.database.model.ActorEntity;
 import com.wesovilabs.workshops.graphql.database.model.MovieEntity;
 import com.wesovilabs.workshops.graphql.domain.ActorRequest;
 import com.wesovilabs.workshops.graphql.domain.MovieRequest;
-import com.wesovilabs.workshops.graphql.resolver.Query;
 import graphql.schema.DataFetcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.LinkedHashMap;
 
 @Component
-public class Mutation extends ResolverBase {
+public class Mutation extends BaseResolver {
 
 
     @Autowired
@@ -36,7 +35,7 @@ public class Mutation extends ResolverBase {
     public DataFetcher deleteActor() {
         return environment -> {
             String actorId = environment.getArgument("actorId");
-            actorRepository.deleteById(Long.valueOf(actorId));
+            actorRepository.deleteById(Integer.valueOf(actorId));
             return query.listActors().get(environment);
 
         };

@@ -1,0 +1,48 @@
+server:
+  port: 9001
+spring:
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5456/workshop
+    username: workshop
+    password: graphql
+    continue-on-error: true
+  jpa:
+    properties:
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: validate
+logging:
+  level:
+    org.springframework: DEBUG
+    com.wesovilabs.workshops.graphql: DEBUG
+graphql:
+  tools:
+    introspection-enabled: true
+  servlet:
+    mapping: /graphql
+    enabled: true
+    corsEnabled: true
+    subscriptions:
+      websocket:
+        enabled: true
+        path: /graphql
+graphiql:
+  mapping: /graphiql
+  endpoint:
+    graphql: /graphql
+    subscriptions: /graphql
+  static:
+    basePath: /
+  enabled: true
+  pageTitle: GraphiQL
+  cdn:
+    enabled: false
+    version: 0.11.11
+  props:
+    resources:
+      query: query.graphql
+      defaultQuery: defaultQuery.graphql
+      variables: variables.graphql
+    variables:
+      editorTheme: "solarized light"

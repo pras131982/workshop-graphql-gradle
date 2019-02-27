@@ -8,11 +8,11 @@ public class MovieRequest {
 
     private String genre;
 
-    private Float budget;
+    private Double budget;
 
     private String thriller;
 
-    private Long directorId;
+    private Integer directorId;
 
     public String getTitle() {
         return title;
@@ -38,11 +38,11 @@ public class MovieRequest {
         this.genre = genre;
     }
 
-    public Float getBudget() {
+    public Double getBudget() {
         return budget;
     }
 
-    public void setBudget(Float budget) {
+    public void setBudget(Double budget) {
         this.budget = budget;
     }
 
@@ -54,11 +54,11 @@ public class MovieRequest {
         this.thriller = thriller;
     }
 
-    public Long getDirectorId() {
+    public Integer getDirectorId() {
         return directorId;
     }
 
-    public void setDirectorId(Long directorId) {
+    public void setDirectorId(Integer directorId) {
         this.directorId = directorId;
     }
 }

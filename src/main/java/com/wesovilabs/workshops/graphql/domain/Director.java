@@ -2,27 +2,27 @@ package com.wesovilabs.workshops.graphql.domain;
 
 public class Director {
 
-    private Long id;
+    private Integer id;
 
     private String fullName;
 
     private String country;
 
-    public Director(Long id) {
+    public Director(Integer id) {
         this.id = id;
     }
 
-    public Director(Long id, String fullName, String country) {
+    public Director(Integer id, String fullName, String country) {
         this.id = id;
         this.fullName = fullName;
         this.country = country;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

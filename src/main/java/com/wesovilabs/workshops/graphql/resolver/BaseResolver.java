@@ -6,7 +6,7 @@ import com.wesovilabs.workshops.graphql.database.repository.DirectorRepository;
 import com.wesovilabs.workshops.graphql.database.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class ResolverBase {
+public class BaseResolver {
 
     @Autowired
     protected ActorRepository actorRepository;

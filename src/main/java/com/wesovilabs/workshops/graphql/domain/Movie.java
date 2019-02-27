@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Movie {
 
-    private Long id;
+    private Integer id;
 
     private String title;
 
@@ -12,7 +12,7 @@ public class Movie {
 
     private String genre;
 
-    private Float budget;
+    private Double budget;
 
     private String thriller;
 
@@ -20,7 +20,7 @@ public class Movie {
 
     private List<Actor> actors;
 
-    public Movie(Long id, String title, int year, String genre, Float budget, String thriller) {
+    public Movie(Integer id, String title, int year, String genre, Double budget, String thriller) {
         this.id = id;
         this.title = title;
         this.year = year;
@@ -29,11 +29,11 @@ public class Movie {
         this.thriller = thriller;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -61,11 +61,11 @@ public class Movie {
         this.genre = genre;
     }
 
-    public Float getBudget() {
+    public Double getBudget() {
         return budget;
     }
 
-    public void setBudget(Float budget) {
+    public void setBudget(Double budget) {
         this.budget = budget;
     }
 

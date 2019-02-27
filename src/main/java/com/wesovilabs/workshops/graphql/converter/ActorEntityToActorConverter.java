@@ -10,6 +10,9 @@ public class ActorEntityToActorConverter implements Converter<ActorEntity, Actor
 
     @Override
     public Actor convert(ActorEntity source) {
+        if (source==null){
+            return null;
+        }
         return new Actor(
                 source.getId(),
                 source.getFullName(),

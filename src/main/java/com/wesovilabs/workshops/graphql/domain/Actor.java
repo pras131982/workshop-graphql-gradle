@@ -2,7 +2,7 @@ package com.wesovilabs.workshops.graphql.domain;
 
 public class Actor {
 
-    private Long id;
+    private Integer id;
 
     private String fullName;
 
@@ -10,18 +10,18 @@ public class Actor {
 
     private String gender;
 
-    public Actor(Long id, String fullName, String country, String gender) {
+    public Actor(Integer id, String fullName, String country, String gender) {
         this.id = id;
         this.fullName = fullName;
         this.country = country;
         this.gender = gender;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

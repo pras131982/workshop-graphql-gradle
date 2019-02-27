@@ -12,6 +12,9 @@ public class MovieEntityToMovieConverter implements Converter<MovieEntity, Movie
 
     @Override
     public Movie convert(MovieEntity source) {
+        if (source == null) {
+            return null;
+        }
         return new Movie(
                 source.getId(),
                 source.getTitle(),
