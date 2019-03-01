@@ -1,7 +1,6 @@
 package com.wesovilabs.workshops.graphql.converter;
 
 import com.wesovilabs.workshops.graphql.database.model.ActorEntity;
-import com.wesovilabs.workshops.graphql.domain.Actor;
 import com.wesovilabs.workshops.graphql.domain.ActorRequest;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;

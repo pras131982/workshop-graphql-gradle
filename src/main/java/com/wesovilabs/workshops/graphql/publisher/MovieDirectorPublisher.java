@@ -2,7 +2,6 @@ package com.wesovilabs.workshops.graphql.publisher;
 
 import com.wesovilabs.workshops.graphql.converter.MovieEntityToMovieConverter;
 import com.wesovilabs.workshops.graphql.database.model.MovieEntity;
-import com.wesovilabs.workshops.graphql.database.repository.MovieRepository;
 import com.wesovilabs.workshops.graphql.domain.Movie;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
@@ -16,8 +15,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class MovieDirectorPublisher {
 
-    @Autowired
-    protected MovieRepository movieRepository;
 
     @Autowired
     private MovieEntityToMovieConverter converter;

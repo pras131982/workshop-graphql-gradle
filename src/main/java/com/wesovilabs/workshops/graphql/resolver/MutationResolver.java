@@ -1,28 +1,24 @@
 package com.wesovilabs.workshops.graphql.resolver;
 
 import com.coxautodev.graphql.tools.GraphQLMutationResolver;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wesovilabs.workshops.graphql.converter.*;
 import com.wesovilabs.workshops.graphql.database.model.ActorEntity;
-import com.wesovilabs.workshops.graphql.database.model.DirectorEntity;
 import com.wesovilabs.workshops.graphql.database.model.MovieEntity;
-import com.wesovilabs.workshops.graphql.database.repository.ActorRepository;
-import com.wesovilabs.workshops.graphql.database.repository.MovieRepository;
-import com.wesovilabs.workshops.graphql.domain.*;
+import com.wesovilabs.workshops.graphql.domain.Actor;
+import com.wesovilabs.workshops.graphql.domain.ActorRequest;
+import com.wesovilabs.workshops.graphql.domain.Movie;
+import com.wesovilabs.workshops.graphql.domain.MovieRequest;
 import com.wesovilabs.workshops.graphql.publisher.MovieDirectorPublisher;
 import com.wesovilabs.workshops.graphql.service.ActorService;
 import com.wesovilabs.workshops.graphql.service.MovieService;
 import graphql.ErrorType;
-import graphql.ExceptionWhileDataFetching;
 import graphql.GraphQLError;
 import graphql.language.SourceLocation;
 import graphql.schema.DataFetchingEnvironment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -60,10 +56,8 @@ public class MutationResolver implements GraphQLMutationResolver {
 
 
     public Actor addActor(ActorRequest request) {
-        ObjectMapper mapper = new ObjectMapper();
         try {
-            ActorRequest actorRequest = mapper.convertValue(request, ActorRequest.class);
-            ActorEntity actorEntity = actorRequestToActorEntityConverter.convert(actorRequest);
+            ActorEntity actorEntity = actorRequestToActorEntityConverter.convert(request);
             actorEntity = actorService.addActor(actorEntity);
             return actorEntityToActorConverter.convert(actorEntity);
         } catch (Exception ex) {
@@ -82,11 +76,8 @@ public class MutationResolver implements GraphQLMutationResolver {
 
     @Transactional
     public Movie addMovie(MovieRequest request, DataFetchingEnvironment env) {
-
         try {
-            ObjectMapper mapper = new ObjectMapper();
-            MovieRequest movieRequest = mapper.convertValue(request, MovieRequest.class);
-            MovieEntity movieEntity = movieRequestToMovieEntityConverter.convert(movieRequest);
+            MovieEntity movieEntity = movieRequestToMovieEntityConverter.convert(request);
             movieEntity = movieService.addMovie(movieEntity);
             movieEntity.getDirector();
             movieDirectorPublisher.publish(movieEntity);

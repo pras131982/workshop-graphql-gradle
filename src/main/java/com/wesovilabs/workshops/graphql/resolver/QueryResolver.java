@@ -5,9 +5,6 @@ import com.wesovilabs.workshops.graphql.converter.ActorEntityToActorConverter;
 import com.wesovilabs.workshops.graphql.converter.DirectorEntityToDirectorConverter;
 import com.wesovilabs.workshops.graphql.converter.MovieEntityToMovieConverter;
 import com.wesovilabs.workshops.graphql.database.model.MovieEntity;
-import com.wesovilabs.workshops.graphql.database.repository.ActorRepository;
-import com.wesovilabs.workshops.graphql.database.repository.DirectorRepository;
-import com.wesovilabs.workshops.graphql.database.repository.MovieRepository;
 import com.wesovilabs.workshops.graphql.domain.Actor;
 import com.wesovilabs.workshops.graphql.domain.Director;
 import com.wesovilabs.workshops.graphql.domain.Movie;
@@ -16,7 +13,6 @@ import com.wesovilabs.workshops.graphql.service.DirectorService;
 import com.wesovilabs.workshops.graphql.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;

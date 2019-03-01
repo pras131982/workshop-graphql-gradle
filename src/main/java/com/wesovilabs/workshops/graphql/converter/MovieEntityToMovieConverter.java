@@ -1,6 +1,5 @@
 package com.wesovilabs.workshops.graphql.converter;
 
-import com.wesovilabs.workshops.graphql.database.model.DirectorEntity;
 import com.wesovilabs.workshops.graphql.database.model.MovieEntity;
 import com.wesovilabs.workshops.graphql.domain.Director;
 import com.wesovilabs.workshops.graphql.domain.Movie;
