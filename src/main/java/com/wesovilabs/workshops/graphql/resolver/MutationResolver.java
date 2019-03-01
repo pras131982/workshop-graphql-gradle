@@ -1,11 +1,16 @@
 package com.wesovilabs.workshops.graphql.resolver;
 
 import com.coxautodev.graphql.tools.GraphQLMutationResolver;
-import com.wesovilabs.workshops.graphql.converter.*;
-import com.wesovilabs.workshops.graphql.database.model.DirectorEntity;
+import com.wesovilabs.workshops.graphql.converter.DirectorEntityToDirectorConverter;
+import com.wesovilabs.workshops.graphql.converter.DirectorRequestToDirectorEntityConverter;
+import com.wesovilabs.workshops.graphql.converter.MovieEntityToMovieConverter;
+import com.wesovilabs.workshops.graphql.converter.MovieRequestToMovieEntityConverter;
 import com.wesovilabs.workshops.graphql.database.model.DirectorEntity;
 import com.wesovilabs.workshops.graphql.database.model.MovieEntity;
-import com.wesovilabs.workshops.graphql.domain.*;
+import com.wesovilabs.workshops.graphql.domain.Director;
+import com.wesovilabs.workshops.graphql.domain.DirectorRequest;
+import com.wesovilabs.workshops.graphql.domain.Movie;
+import com.wesovilabs.workshops.graphql.domain.MovieRequest;
 import com.wesovilabs.workshops.graphql.publisher.MovieDirectorPublisher;
 import com.wesovilabs.workshops.graphql.service.DirectorService;
 import com.wesovilabs.workshops.graphql.service.MovieService;

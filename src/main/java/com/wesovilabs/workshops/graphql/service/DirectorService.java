@@ -1,6 +1,5 @@
 package com.wesovilabs.workshops.graphql.service;
 
-import com.wesovilabs.workshops.graphql.database.model.ActorEntity;
 import com.wesovilabs.workshops.graphql.database.model.DirectorEntity;
 
 import java.util.List;
