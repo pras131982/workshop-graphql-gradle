@@ -13,15 +13,7 @@ public class ActorServiceImpl implements ActorService {
     @Autowired
     private ActorRepository actorRepository;
 
-    @Override
-    public ActorEntity addActor(ActorEntity aentity) {
-        return actorRepository.save(aentity);
-    }
 
-    @Override
-    public void deleteActorWithId(Integer actorId) {
-        actorRepository.deleteById(actorId);
-    }
 
     @Override
     public List<ActorEntity> listActors() {

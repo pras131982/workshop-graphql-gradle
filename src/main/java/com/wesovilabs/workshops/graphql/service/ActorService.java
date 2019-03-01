@@ -6,9 +6,5 @@ import java.util.List;
 
 public interface ActorService {
 
-    ActorEntity addActor(ActorEntity aentity);
-
-    void deleteActorWithId(Integer actorId);
-
     List<ActorEntity> listActors();
 }

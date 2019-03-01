@@ -14,6 +14,14 @@ public class DirectorEntity {
 
     private String country;
 
+    public DirectorEntity() {
+    }
+
+    public DirectorEntity(String fullName, String country) {
+        this.fullName = fullName;
+        this.country = country;
+    }
+
     public Integer getId() {
         return id;
     }

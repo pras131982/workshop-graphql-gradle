@@ -2,14 +2,12 @@ package com.wesovilabs.workshops.graphql.resolver;
 
 import com.coxautodev.graphql.tools.GraphQLMutationResolver;
 import com.wesovilabs.workshops.graphql.converter.*;
-import com.wesovilabs.workshops.graphql.database.model.ActorEntity;
+import com.wesovilabs.workshops.graphql.database.model.DirectorEntity;
+import com.wesovilabs.workshops.graphql.database.model.DirectorEntity;
 import com.wesovilabs.workshops.graphql.database.model.MovieEntity;
-import com.wesovilabs.workshops.graphql.domain.Actor;
-import com.wesovilabs.workshops.graphql.domain.ActorRequest;
-import com.wesovilabs.workshops.graphql.domain.Movie;
-import com.wesovilabs.workshops.graphql.domain.MovieRequest;
+import com.wesovilabs.workshops.graphql.domain.*;
 import com.wesovilabs.workshops.graphql.publisher.MovieDirectorPublisher;
-import com.wesovilabs.workshops.graphql.service.ActorService;
+import com.wesovilabs.workshops.graphql.service.DirectorService;
 import com.wesovilabs.workshops.graphql.service.MovieService;
 import graphql.ErrorType;
 import graphql.GraphQLError;
@@ -28,22 +26,16 @@ import static graphql.ErrorType.DataFetchingException;
 public class MutationResolver implements GraphQLMutationResolver {
 
     @Autowired
-    private QueryResolver queryResolver;
-
-    @Autowired
-    private ActorRequestToActorEntityConverter actorRequestToActorEntityConverter;
+    private DirectorRequestToDirectorEntityConverter directorRequestToDirectorEntityConverter;
 
     @Autowired
     private MovieRequestToMovieEntityConverter movieRequestToMovieEntityConverter;
 
     @Autowired
-    private ActorService actorService;
+    private DirectorService directorService;
 
     @Autowired
     private MovieService movieService;
-
-    @Autowired
-    private ActorEntityToActorConverter actorEntityToActorConverter;
 
     @Autowired
     private DirectorEntityToDirectorConverter directorEntityToDirectorConverter;
@@ -55,22 +47,22 @@ public class MutationResolver implements GraphQLMutationResolver {
     private MovieDirectorPublisher movieDirectorPublisher;
 
 
-    public Actor addActor(ActorRequest request) {
+    public Director addDirector(DirectorRequest request) {
         try {
-            ActorEntity actorEntity = actorRequestToActorEntityConverter.convert(request);
-            actorEntity = actorService.addActor(actorEntity);
-            return actorEntityToActorConverter.convert(actorEntity);
+            DirectorEntity directorEntity = directorRequestToDirectorEntityConverter.convert(request);
+            directorEntity = directorService.addDirector(directorEntity);
+            return directorEntityToDirectorConverter.convert(directorEntity);
         } catch (Exception ex) {
             throw ex;
         }
     }
 
-    public List<Actor> deleteActor(Integer actorId) {
-        actorService.deleteActorWithId(Integer.valueOf(actorId));
-        return actorService
-                .listActors()
+    public List<Director> deleteDirector(Integer directorId) {
+        directorService.deleteDirectorWithId(Integer.valueOf(directorId));
+        return directorService
+                .listDirectors()
                 .stream()
-                .map(actorEntityToActorConverter::convert)
+                .map(directorEntityToDirectorConverter::convert)
                 .collect(Collectors.toList());
     }
 
