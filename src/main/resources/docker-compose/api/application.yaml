@@ -1,12 +1,35 @@
-server.port=9001
-spring.main.banner-mode=off
-logging.level.org.springframework=ERROR
-logging.level.com.wesovilabs.workshops.graphql=DEBUG
-
-spring.datasource.platform=postgres
-spring.datasource.url=jdbc:postgresql://database:5432/workshop
-spring.datasource.username=workshop
-spring.datasource.password=graphql
-spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQLDialect
-spring.jpa.hibernate.ddl-auto = validate
-spring.datasource.continue-on-error=true
+server:
+  port: 9001
+spring:
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://database:5432/workshop
+    username: workshop
+    password: graphql
+    continue-on-error: true
+  jpa:
+    properties:
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: validate
+logging:
+  level:
+    org.springframework: WARN
+    com.wesovilabs.workshops.graphql: DEBUG
+    org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl: ERROR
+graphql:
+  tools:
+    introspection-enabled: true
+  servlet:
+    mapping: /graphql
+    enabled: true
+    corsEnabled: true
+    subscriptions:
+      websocket:
+        enabled: true
+        path: /subscriptions
+graphiql:
+  mapping: /graphiql
+  endpoint: /graphql
+  enabled: true
+  pageTitle: Wesovilabs

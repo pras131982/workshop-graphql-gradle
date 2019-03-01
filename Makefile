@@ -13,7 +13,7 @@ docker-build:
 	gradle build;
 	$(DOCKER_BUILD)
 
-docker-run: docker-build ;
+deploy: docker-build ;
 	$(DOCKER_RUN)
 
 database: ;

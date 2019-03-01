@@ -16,6 +16,7 @@ logging:
   level:
     org.springframework: WARN
     com.wesovilabs.workshops.graphql: DEBUG
+    org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl: ERROR
 graphql:
   tools:
     introspection-enabled: true
