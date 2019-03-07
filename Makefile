@@ -7,10 +7,10 @@ DOCKER_STOP=docker-compose -f $(DOCKERCOMPOSE_PATH) down -v
 DOCKER_BUILD=docker build -f ${DOCKER_DOCKERFILE} -t=${DOCKER_IMG} .
 
 deps:
-	gradle dependencies
+	./gradlew dependencies
 
 docker-build:
-	gradle build;
+	./gradlew build;
 	$(DOCKER_BUILD)
 
 deploy: docker-build ;
@@ -23,7 +23,7 @@ docker-stop: ;
 	$(DOCKER_STOP)
 
 clean:
-	gradle clean
+	./gradlew clean
 
 run:
-	gradle bootRun
+	./gradlew bootRun
