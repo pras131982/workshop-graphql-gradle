@@ -15,7 +15,7 @@ public class MovieRequestToMovieEntityConverter implements Converter<MovieReques
                 source.getYear(),
                 source.getGenre(),
                 source.getBudget(),
-                source.getThriller(),
+                source.getTrailer(),
                 source.getDirectorId()
         );
     }

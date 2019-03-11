@@ -21,7 +21,7 @@ public class MovieEntity {
 
     private Double budget;
 
-    private String thriller;
+    private String trailer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "director_id")
@@ -41,12 +41,12 @@ public class MovieEntity {
 
     }
 
-    public MovieEntity(String title, int releaseYear, String genre, Double budget, String thriller, Integer directorId) {
+    public MovieEntity(String title, int releaseYear, String genre, Double budget, String trailer, Integer directorId) {
         this.title = title;
         this.releaseYear = releaseYear;
         this.genre = genre;
         this.budget = budget;
-        this.thriller = thriller;
+        this.trailer = trailer;
         this.director = new DirectorEntity();
         this.director.setId(directorId);
     }
@@ -91,12 +91,12 @@ public class MovieEntity {
         this.budget = budget;
     }
 
-    public String getThriller() {
-        return thriller;
+    public String getTrailer() {
+        return trailer;
     }
 
-    public void setThriller(String thriller) {
-        this.thriller = thriller;
+    public void setTrailer(String trailer) {
+        this.trailer = trailer;
     }
 
     public DirectorEntity getDirector() {

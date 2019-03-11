@@ -10,7 +10,7 @@ public class MovieRequest {
 
     private Double budget;
 
-    private String thriller;
+    private String trailer;
 
     private Integer directorId;
 
@@ -46,12 +46,12 @@ public class MovieRequest {
         this.budget = budget;
     }
 
-    public String getThriller() {
-        return thriller;
+    public String getTrailer() {
+        return trailer;
     }
 
-    public void setThriller(String thriller) {
-        this.thriller = thriller;
+    public void setTrailer(String trailer) {
+        this.trailer = trailer;
     }
 
     public Integer getDirectorId() {

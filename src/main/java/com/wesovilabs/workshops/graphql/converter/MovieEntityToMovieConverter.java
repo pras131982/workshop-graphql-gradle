@@ -20,7 +20,7 @@ public class MovieEntityToMovieConverter implements Converter<MovieEntity, Movie
                 source.getReleaseYear(),
                 source.getGenre(),
                 source.getBudget(),
-                source.getThriller()
+                source.getTrailer()
         );
         if (source.getDirector() != null) {
             movie.setDirector(new Director(source.getDirector().getId()));

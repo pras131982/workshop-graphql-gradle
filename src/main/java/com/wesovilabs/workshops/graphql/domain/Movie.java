@@ -14,19 +14,19 @@ public class Movie {
 
     private Double budget;
 
-    private String thriller;
+    private String trailer;
 
     private Director director;
 
     private List<Actor> actors;
 
-    public Movie(Integer id, String title, int year, String genre, Double budget, String thriller) {
+    public Movie(Integer id, String title, int year, String genre, Double budget, String trailer) {
         this.id = id;
         this.title = title;
         this.year = year;
         this.genre = genre;
         this.budget = budget;
-        this.thriller = thriller;
+        this.trailer = trailer;
     }
 
     public Integer getId() {
@@ -69,12 +69,12 @@ public class Movie {
         this.budget = budget;
     }
 
-    public String getThriller() {
-        return thriller;
+    public String getTrailer() {
+        return trailer;
     }
 
-    public void setThriller(String thriller) {
-        this.thriller = thriller;
+    public void setTrailer(String trailer) {
+        this.trailer = trailer;
     }
 
     public Director getDirector() {
