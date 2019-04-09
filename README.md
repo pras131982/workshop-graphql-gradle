@@ -4,3 +4,5 @@ docker-compose -f src/main/resources/docker-compose/docker-compose.yml run --rm 
 
 
   ./gradlew bootRun
+  
+  http://localhost:9001/graphiql
